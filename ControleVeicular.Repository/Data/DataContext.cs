@@ -1,7 +1,7 @@
-using ControleVeicular.WebApi.Model;
+using ControleVeicular.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace ControleVeicular.WebApi.Data
+namespace ControleVeicular.Repository.Data
 {
     public class DataContext : DbContext
     {
@@ -10,6 +10,6 @@ namespace ControleVeicular.WebApi.Data
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Advertisement> Advertisements { get; set; }
-        public DbSet<AdvertisementPicture> AdvertisementPictures { get; set; }
+        public DbSet<AdvertisementPhoto> AdvertisementPhotos { get; set; }
     }
 }

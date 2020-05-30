@@ -1,6 +1,6 @@
 using System;
 
-namespace ControleVeicular.WebApi.Model
+namespace ControleVeicular.Domain.Model
 {
     public class Brand
     {

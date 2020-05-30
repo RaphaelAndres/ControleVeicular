@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ControleVeicular.WebApi.Data;
+using ControleVeicular.Repository;
+using ControleVeicular.Repository.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,7 +31,9 @@ namespace ControleVeicular.WebApi
             services.AddDbContext<DataContext>(
                 x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
+            services.AddScoped<IControleVeicularRepository, ControleVeicularRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +50,8 @@ namespace ControleVeicular.WebApi
             }
 
             app.UseHttpsRedirection();
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }
