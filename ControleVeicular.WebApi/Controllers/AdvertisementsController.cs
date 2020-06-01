@@ -98,7 +98,7 @@ namespace ControleVeicular.WebApi.Controllers
             return BadRequest();
         }
 
-        [HttpDelete]
+        [HttpDelete("{Id}")]
         public async Task<IActionResult> Delete(Guid Id)
         {
             try
