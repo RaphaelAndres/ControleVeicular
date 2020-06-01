@@ -1,3 +1,29 @@
-<p>
-  header works!
-</p>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">Controle automotivo</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="">Home
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="false">
+          <a class="nav-link" routerLink="#">Login</a>
+        </li>
+        <li class="nav-item" *ngIf="true">
+          <a class="nav-link" routerLink="brands">marcas</a>
+        </li>
+        <li class="nav-item" *ngIf="true">
+          <a class="nav-link" routerLink="vehicles">veículos</a>
+        </li>
+        <li class="nav-item" *ngIf="true">
+          <a class="nav-link" routerLink="advertisements">anúncios</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,151 @@
+<div>
+  <div class="row">
+    <div class="col-lg-4">
+      <h3>Anúncios:</h3>
+    </div>
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4">
+      <div class="form-inline mr-right">
+        <button class="btn btn-outline-primary" (click)="openModal(editAdvertisement)">
+          <i class="fas fa-plus-circle"></i>
+          Novo Anúncio
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="form-inline mr-auto"></div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Modelo</th>
+        <th scope="col">Preço de venda</th>
+        <th scope="col">Preço de compra</th>
+        <th scope="col">Ano de fabricação/modelo</th>
+        <th scope="col">Cor</th>
+        <th scope="col">Tipo de combustível</th>
+        <th scope="col">Data de venda</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let advertisement of advertisements">
+        <th scope="row">{{ findVehicle(advertisement.vehicleId) }}</th>
+        <td>{{ advertisement.sellPrice }}</td>
+        <td>{{ advertisement.buyPrice }}</td>
+        <td>{{ advertisement.fabricationYear + '/' + advertisement.modelYear }}</td>
+        <td>{{ advertisement.color }}</td>
+        <td>{{ advertisement.fuelType }}</td>
+        <td>{{ advertisement.sellDate }}</td>
+        <td>
+          <div class="btn-group">
+            <button class="btn btn-sm btn-warning" tooltip="Editar" (click)="openModalEdit(editAdvertisement, advertisement)">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" tooltip="Excluir" (click)="excluirRegistro(advertisement.id)">
+              <i class="fas fa-eraser"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div bsModal #editAdvertisement="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Alterar/Criar Anúncio</h4>
+        <button type="button" class="close pull-right" (click)="closeModal(editAdvertisement)" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="registerForm">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Modelo</label>
+              <select
+                [ngClass]="{'is-invalid': registerForm.get('vehicleId').errors && registerForm.get('vehicleId').touched}"
+                class="custom-select form-control" formControlName="vehicleId">
+                <option *ngFor="let vehicle of vehicles" value="{{vehicle.id}}">{{vehicle.modelName + ' ' + vehicle.modelSpecification}}</option>
+              </select>
+              <div class="invalid-feedback">
+                A seleção de um modelo é obrigatória
+              </div>
+            </div> 
+            <div class="form-group col-md-3">
+              <label>Preço de venda</label>
+              <input type="number" class="form-control"
+               [ngClass]="{'is-invalid': registerForm.get('buyPrice').errors && registerForm.get('buyPrice').touched}"
+                formControlName="buyPrice" placeholder="ex: 20000">
+                <div class="invalid-feedback">
+                  O Preço de venda é obrigatório
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Preço de compra</label>
+              <input type="number" class="form-control"
+                [ngClass]="{'is-invalid': registerForm.get('sellPrice').errors && registerForm.get('sellPrice').touched}"
+                formControlName="sellPrice" placeholder="ex: 20000">
+              <div class="invalid-feedback">
+                O Preço de compra é obrigatório
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <label>Data de venda</label>
+              <input type="date" class="form-control" formControlName="sellDate">
+            </div>
+            <div class="form-group col-md-3">
+              <label>Ano de fabricação</label>
+              <input type="number" class="form-control" 
+               [ngClass]="{'is-invalid': registerForm.get('fabricationYear').errors && registerForm.get('fabricationYear').touched}"
+               formControlName="fabricationYear" placeholder="ex: 2015">
+            </div>
+            <div class="form-group col-md-3">
+              <label>Ano do modelo</label>
+              <input type="number" class="form-control" 
+               [ngClass]="{'is-invalid': registerForm.get('modelYear').errors && registerForm.get('modelYear').touched}"
+               formControlName="modelYear" placeholder="ex: 2015">
+            </div>
+            <div class="form-group col-md-3">
+              <label>Cor</label>
+              <input type="text" class="form-control" 
+               [ngClass]="{'is-invalid': registerForm.get('color').errors && registerForm.get('color').touched}"
+               formControlName="color" placeholder="ex: Amarelo">
+            </div>
+          </div>          
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label>Tipo de combustível</label>
+              <input type="text" class="form-control" formControlName="fuelType"
+               [ngClass]="{'is-invalid': registerForm.get('fuelType').errors && registerForm.get('fuelType').touched}"
+               placeholder="ex: Gasolina, Flex, Etanol">
+            </div>
+            <div class="form-group col-md-4">
+              <label>Transmissão</label>
+              <input type="text" class="form-control" formControlName="transmissionType"
+                placeholder="ex: Manual, automática, CVT">
+            </div>
+            <div class="form-group col-md-4">
+              <label>Tração</label>
+              <input type="text" class="form-control" formControlName="driveTrain"
+                placeholder="ex: Dianteira, traseira, Integral, 4x4">
+            </div>            
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeModal(editAdvertisement)">
+          Fechar
+        </button>
+        <button class="btn btn-success" [disabled]="!registerForm.valid" (click)="salvarAlteracao(editAdvertisement)">
+          Salvar Alterações
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

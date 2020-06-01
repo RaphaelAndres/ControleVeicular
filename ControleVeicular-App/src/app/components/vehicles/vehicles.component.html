@@ -1,0 +1,122 @@
+<div>
+  <div class="row">
+    <div class="col-lg-4">
+      <h3>Veículos:</h3>
+    </div>
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4">
+      <div class="form-inline mr-right">
+        <button class="btn btn-outline-primary" (click)="openModal(editVehicle)">
+          <i class="fas fa-plus-circle"></i>
+          Novo Veículo
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="form-inline mr-auto"></div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Fabricante</th>
+        <th scope="col">Nome do modelo</th>
+        <th scope="col">Especificação do modelo</th>
+        <th scope="col">Cilindrada do motor</th>
+        <th scope="col">Tipo de carroceria</th>
+        <th scope="col">Especificação do motor</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let vehicle of vehicles">
+        <th scope="row">{{ findBrandInList(vehicle.brandId) }}</th>
+        <td>{{ vehicle.modelName }}</td>
+        <td>{{ vehicle.modelSpecification }}</td>
+        <td>{{ vehicle.engineDisplacement }}</td>
+        <td>{{ vehicle.bodytype }}</td>
+        <td>{{ vehicle.engineSpecification }}</td>
+        <td>
+          <div class="btn-group">
+            <button class="btn btn-sm btn-warning" tooltip="Editar" (click)="openModalEdit(editVehicle, vehicle)">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" tooltip="Excluir" (click)="excluirRegistro(vehicle.id)">
+              <i class="fas fa-eraser"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div bsModal #editVehicle="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Alterar/Criar veículo</h4>
+        <button type="button" class="close pull-right" (click)="closeModal(editVehicle)" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="registerForm">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label>Nome do modelo</label>
+              <input type="text" class="form-control"
+                [ngClass]="{'is-invalid': registerForm.get('modelName').errors && registerForm.get('modelName').touched}"
+                formControlName="modelName" placeholder="ex: Civic">
+              <div class="invalid-feedback">
+                O nome do modelo é obrigatório.
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label>Especificação do modelo</label>
+              <input type="text" class="form-control"
+                [ngClass]="{'is-invalid': registerForm.get('modelSpecification').errors && registerForm.get('modelSpecification').touched}"
+                formControlName="modelSpecification" placeholder="ex: EXS VTEC">
+              <div class="invalid-feedback">
+                A especificação do modelo é obrigatório.
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label>Tipo da carroceria</label>
+              <input type="text" class="form-control" formControlName="bodytype" placeholder="ex: Sedã, Coupe, Hatch">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <label>Cilindrada do motor</label>
+              <input type="number" class="form-control" formControlName="engineDisplacement" placeholder="ex: 2000 (2.0)">
+            </div>
+            <div class="form-group col-md-6">
+              <label>Tipo do motor</label>
+              <input type="text" class="form-control" formControlName="engineSpecification"
+                placeholder="ex: 4 em linha aspirado, v6 supercharged">
+            </div>
+            <div class="form-group col-md-3">
+              <label>Fabricante/Marca</label>
+              <select
+                [ngClass]="{'is-invalid': registerForm.get('brandId').errors && registerForm.get('brandId').touched}"
+                class="custom-select form-control" formControlName="brandId">
+                <option *ngFor="let brand of brands" value="{{brand.id}}">{{brand.nome}}</option>
+              </select>
+              <div class="invalid-feedback">
+                A seleção de um fabricante é obrigatória
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeModal(editVehicle)">
+          Fechar
+        </button>
+        <button class="btn btn-success" [disabled]="!registerForm.valid" (click)="salvarAlteracao(editVehicle)">
+          Salvar Alterações
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+<div>
+  <div class="row">
+    <div class="col-lg-4">
+      <h3>Marcas/Fabricantes:</h3>
+    </div>
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4">
+      <div class="form-inline mr-right">
+        <button class="btn btn-outline-primary" (click)="openModal(editBrand)">
+          <i class="fas fa-plus-circle"></i>
+          Nova Marca
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="form-inline mr-auto"></div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Nome</th>
+        <th scope="col">País de Origem</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let brand of brands">
+        <th scope="row">{{ brand.nome }}</th>
+        <td>{{ brand.pais }}</td>
+        <td>
+          <div class="btn-group">
+              <button class="btn btn-sm btn-warning" tooltip="Editar"
+               (click)="openModalEdit(editBrand, brand)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-danger" tooltip="Excluir"
+               (click)="excluirRegistro(brand.id)">
+                <i class="fas fa-eraser"></i>
+              </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>    
+  </table>
+</div>
+
+<div bsModal #editBrand="bs-modal" class="modal fade" tabindex="-1"
+     role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Alterar/Criar Marca</h4>
+        <button type="button" class="close pull-right" (click)="closeModal(editBrand)" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="registerForm">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Nome da Marca</label>
+              <input type="text" class="form-control"
+               [ngClass]="{'is-invalid': registerForm.get('nome').errors && registerForm.get('nome').touched}"
+               formControlName="nome" placeholder="ex: Volkswagem">
+              <div class="invalid-feedback">
+                O nome da marca é obrigatório.
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>País de Origem</label>
+              <input type="text" class="form-control"
+               [ngClass]="{'is-invalid': registerForm.get('pais').errors && registerForm.get('pais').touched}" 
+               formControlName="pais" placeholder="ex: Alemanha">
+              <div class="invalid-feedback">
+                O país de origem da marca é obrigatório.
+              </div>
+            </div>
+          </div>  
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeModal(editBrand)">
+          Fechar
+        </button>
+        <button class="btn btn-success" [disabled]="!registerForm.valid" (click)="salvarAlteracao(editBrand)">
+          Salvar Alterações
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
