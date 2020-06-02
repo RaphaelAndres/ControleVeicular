@@ -10,12 +10,19 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrandsComponent } from './components/brands/brands.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { VehiclesComponent } from './components/vehicles/vehicles.component';
 import { AdvertisementsComponent } from './components/advertisements/advertisements.component';
+import { UserComponent } from './components/user/user.component';
+import { RegistrationComponent } from './components/user/registration/registration.component';
+import { LoginComponent } from './components/user/login/login.component';
+import { AuthInterceptor } from './auth/auth.interceptor';
+import { AdvertisementService } from './services/advertisement.service';
+import { BrandService } from './services/brand.service';
+import { VehicleService } from './services/vehicle.service';
 
 @NgModule({
    declarations: [
@@ -23,7 +30,10 @@ import { AdvertisementsComponent } from './components/advertisements/advertiseme
       HeaderComponent,
       BrandsComponent,
       VehiclesComponent,
-      AdvertisementsComponent
+      AdvertisementsComponent,
+      UserComponent,
+      RegistrationComponent,
+      LoginComponent
    ],
    imports: [
       BrowserModule,
@@ -36,8 +46,18 @@ import { AdvertisementsComponent } from './components/advertisements/advertiseme
       AppRoutingModule,
       HttpClientModule,
       FontAwesomeModule,
+      FormsModule
    ],
-   providers: [],
+   providers: [
+      AdvertisementService,
+      BrandService,
+      VehicleService,
+      {
+         provide: HTTP_INTERCEPTORS,
+         useClass: AuthInterceptor,
+         multi: true
+      }
+   ],
    bootstrap: [
       AppComponent
    ]

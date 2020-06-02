@@ -46,10 +46,9 @@ namespace ControleVeicular.WebApi.Controllers {
             {
                 var user = Mapper.Map<User>(userDto);
                 var result = await UserManager.CreateAsync(user, userDto.Password);
-                var userReturn = Mapper.Map<UserDto>(result);
                 if (result.Succeeded) 
                 {
-                    return Created("GetUser", userReturn);
+                    return Created("GetUser", user);
                 }
                 return BadRequest(result.Errors);
             }
