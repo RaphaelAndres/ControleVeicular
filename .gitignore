@@ -1,5 +1,7 @@
 
 #.Net Core Stuff
+/bin
+/obj
 bin
 obj
 

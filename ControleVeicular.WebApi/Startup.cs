@@ -67,7 +67,12 @@ namespace ControleVeicular.WebApi
 
             services.AddAutoMapper();
 
-            services.AddMvc()
+            services.AddMvc(options => {
+                    var policy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+                    options.Filters.Add(new AuthorizeFilter(policy));
+                })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
@@ -87,7 +92,7 @@ namespace ControleVeicular.WebApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseStaticFiles();

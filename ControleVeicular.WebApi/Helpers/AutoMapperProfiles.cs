@@ -8,7 +8,8 @@ namespace ControleVeicular.WebApi.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<User, UserDto>();
+            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<User, UserLoginDto>().ReverseMap();
         }
     }
 }
